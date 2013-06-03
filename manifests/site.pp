@@ -4,48 +4,22 @@ node default {
 
   class { 'apache':}
   class { 'apache::mod::ssl': }
-  class { 'apache::mod::proxy_http': }
+  class { 'apache::mod::php': }
 
   apache::vhost::proxy { $fqdn:
       vhost_name => $fqdn,
       port => 80,
       dest => 'http://localhost:8080'
-  }
+  }                                                                                                                                                                                  
 
-# From master branch of apache module                                                                                                                                                      
-#                                                                                                                                                                                          
-#  apache::vhost { 'jenkins non-ssl':                                                                                                                                                      
-#    servername   => '127.0.0.1',                                                                                                                                                          
-#    port         => '80',                                                                                                                                                                 
-#    rewrite_cond => '%{HTTPS} off',                                                                                                                                                       
-#    rewrite_rule => '(.*) https://%{HTTPS_HOST}%{REQUEST_URI}',                                                                                                                           
-#  }                                                                                                                                                                                       
-#  apache::vhost { 'jenkins ssl':                                                                                                                                                          
-#      servername => '127.0.0.1',                                                                                                                                                          
-#      port       => '443',                                                                                                                                                                
-#      ssl        => true,                                                                                                                                                                 
-#      proxy_dest => 'http://localhost:8080/'                                                                                                                                              
-#    }                                                                                                                                                                                     
+  class { 'wordpress':
+    wp_owner    => 'wordpress',
+    wp_group    => 'wordpress',
+    db_user     => 'wordpress',
+    db_password => 'wordpress',
+    install_dir => '/var/www/wordpress',
+}
 
-  include jenkins
+  include wordpress
 
-#
-# Install some jenkins plugins
-#
-  $plugins = [ 
-    'git',
-    'github',
-    'subversion',
-    'chucknorris',
-    'http_request',
-    'jenkins-cloudformation-plugin',
-    'ec2',
-    's3',
-    'batch-task',
-    'ssh',
-    'monitoring',
-    'jabber'
-  ]
-
-  jenkins::plugin::install { $plugins: }
 }
