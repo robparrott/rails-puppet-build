@@ -1,7 +1,7 @@
 Overview
 --------
 
-This basic puppet module is primarily a site profile for an all-in-one 
-Wordpress server, fronted by apache.
+This basic puppet module is primarily a site profile for 
+  a Ruby-on-rails environment.
 
 It uses r10k via a "Puppetfile" to install needed modules.
