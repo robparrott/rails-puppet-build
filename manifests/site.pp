@@ -16,9 +16,7 @@ node default {
   }
   
   class { 'wordpress':
-    version        => '3.5'
-#    wp_owner    => 'wordpress',
-#    wp_group    => 'wordpress',
+    version        => '3.5',
     db_user     => 'wordpress',
     db_password => 'wordpress',
     install_dir => '/var/www/wordpress',
